@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-paper-white: #FFFFFF;
+    --color-whatsapp-vivid: #25D366;
+    --color-whatsapp-deep: #075E54;
+    --color-whatsapp-dark: #054C44;
+    --color-mint-light: #F0FDF4;
+    --color-chat-green: #DCF8C6;
+    --color-slate-900: #0F172A;
+    --color-slate-600: #475569;
+  }
+}
+
+.font-canva {
+  font-family: 'Canva Sans', 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.font-headline {
+  font-family: 'Poppins', sans-serif;
+}
+
+.font-body {
+  font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #075E54;
+}
+
+/* Glassmorphism helpers */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
