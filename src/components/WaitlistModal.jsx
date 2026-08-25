@@ -29,7 +29,7 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
     
     setIsSubmitting(true);
 
-    const formData = {
+    const payload = {
       timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
       name,
       email,
@@ -42,11 +42,16 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
     // Post to connected Google Sheets Web App endpoint
     if (GOOGLE_SHEET_WEBHOOK_URL) {
       try {
+        // Send both as form urlencoded and JSON to support any Apps Script configuration
+        const formBody = new URLSearchParams(payload).toString();
+
         await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
           method: 'POST',
-          mode: 'no-cors', // Required for Google Apps Script Web Apps
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
+          mode: 'no-cors',
+          headers: { 
+            'Content-Type': 'application/x-www-form-urlencoded' 
+          },
+          body: formBody
         });
       } catch (err) {
         console.warn('Google Sheets Webhook submission notice:', err);
