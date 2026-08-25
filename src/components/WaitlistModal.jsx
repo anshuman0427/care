@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, MapPin, Phone, Mail, User, Building, Heart, MessageSquare, ArrowRight, Loader2 } from 'lucide-react';
 
-// 💡 Connected Google Apps Script Web App URL to receive registrations live in Google Sheets!
-const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxh6BqxRzuqsgq78b49qZj7o8RpTsm91eohUW-0-DU6-dZQt7oS6o5zt_6Y2aznWFYl/exec"; 
+// 💡 Connected SheetDB API endpoint to automatically save registrations into Google Sheets!
+const SHEETDB_API_URL = "https://sheetdb.io/api/v1/iqlqifffuerr8"; 
 
 export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
   const [name, setName] = useState('');
@@ -30,30 +30,32 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
     setIsSubmitting(true);
 
     const payload = {
-      timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-      name,
-      email,
-      phone: `${phoneCode} ${phone}`,
-      buyerCity: place,
-      parentLocation,
-      tier
+      data: [
+        {
+          "Timestamp": new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+          "Name": name,
+          "Email": email,
+          "Phone": `${phoneCode} ${phone}`,
+          "Buyer City": place,
+          "Parent Address": parentLocation,
+          "Tier": tier
+        }
+      ]
     };
 
-    // Post to connected Google Sheets Web App endpoint
-    if (GOOGLE_SHEET_WEBHOOK_URL) {
+    // Send HTTP POST request to SheetDB API
+    if (SHEETDB_API_URL) {
       try {
-        const formBody = new URLSearchParams(payload).toString();
-
-        await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+        await fetch(SHEETDB_API_URL, {
           method: 'POST',
-          mode: 'no-cors',
           headers: { 
-            'Content-Type': 'application/x-www-form-urlencoded' 
+            'Accept': 'application/json',
+            'Content-Type': 'application/json' 
           },
-          body: formBody
+          body: JSON.stringify(payload)
         });
       } catch (err) {
-        console.warn('Google Sheets Webhook submission notice:', err);
+        console.warn('SheetDB API submission notice:', err);
       }
     }
 
@@ -238,7 +240,7 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>Connecting to Google Sheets...</span>
+                          <span>Saving to SheetDB...</span>
                         </>
                       ) : (
                         <>
@@ -250,12 +252,12 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
                   </div>
 
                   <p className="text-[10px] sm:text-[11px] text-center text-slate-400 italic font-normal">
-                    🔒 Zero upfront payment required. Submissions are saved directly to Google Sheets.
+                    🔒 Zero upfront payment required. Submissions are saved automatically via SheetDB.
                   </p>
                 </form>
               </div>
             ) : (
-              /* CONFIRMATION / THANK YOU STATE - ULTRA MOBILE FRIENDLY */
+              /* CONFIRMATION / THANK YOU STATE */
               <div className="py-2 sm:py-4 space-y-4 sm:space-y-6 text-center">
                 <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-[#F0FDF4] text-[#075E54] flex items-center justify-center mx-auto border border-emerald-200">
                   <CheckCircle2 className="w-8 h-8 sm:w-10 sm:h-10 text-[#25D366]" />
@@ -273,7 +275,7 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
                   </p>
                 </div>
 
-                {/* Reservation Summary Box - Responsive Stacked on Mobile */}
+                {/* Reservation Summary Box */}
                 <div className="bg-slate-50/70 p-3.5 sm:p-5 rounded-2xl border border-slate-200 text-left text-xs space-y-2.5 shadow-sm font-normal">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200/60 pb-2 gap-0.5 sm:gap-2">
                     <span className="text-slate-500 font-normal">Registered Email:</span>
