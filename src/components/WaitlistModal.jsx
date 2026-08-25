@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, CheckCircle2, MapPin, Phone, Mail, User, Building, Heart, MessageSquare, ArrowRight, Loader2 } from 'lucide-react';
 
 // 💡 Connected Google Apps Script Web App URL to receive registrations live in Google Sheets!
-const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxXCTt7ulJPeULhGGtOnAXDteA-x3St_E98kbocTCPRAkvZ7fVxpuuk_GTrZyaAvgpgqg/exec"; 
+const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxh6BqxRzuqsgq78b49qZj7o8RpTsm91eohUW-0-DU6-dZQt7oS6o5zt_6Y2aznWFYl/exec"; 
 
 export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
   const [name, setName] = useState('');
@@ -42,7 +42,6 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
     // Post to connected Google Sheets Web App endpoint
     if (GOOGLE_SHEET_WEBHOOK_URL) {
       try {
-        // Send both as form urlencoded and JSON to support any Apps Script configuration
         const formBody = new URLSearchParams(payload).toString();
 
         await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
