@@ -35,7 +35,7 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
           "Timestamp": new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
           "Name": name,
           "Email": email,
-          "Phone": `${phoneCode} ${phone}`,
+          "Phone": `'${phoneCode} ${phone}`,
           "Buyer City": place,
           "Parent Address": parentLocation,
           "Tier": tier
@@ -240,7 +240,7 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
                       {isSubmitting ? (
                         <>
                           <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>Saving to SheetDB...</span>
+                          <span>Reserving Priority Spot...</span>
                         </>
                       ) : (
                         <>
@@ -252,7 +252,7 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
                   </div>
 
                   <p className="text-[10px] sm:text-[11px] text-center text-slate-400 italic font-normal">
-                    🔒 Zero upfront payment required. Submissions are saved automatically via SheetDB.
+                    🔒 Zero upfront payment required. Your priority launch spot is saved instantly.
                   </p>
                 </form>
               </div>
@@ -305,7 +305,7 @@ export default function WaitlistModal({ isOpen, onClose, defaultTier }) {
                     <MessageSquare className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#25D366] shrink-0" /> WhatsApp Confirmation Sent
                   </p>
                   <p className="text-[11px] sm:text-xs leading-relaxed">
-                    "Namaste {name}! We have saved your registration in Google Sheets for parents in {parentLocation}. A Care Coordinator will reach out on WhatsApp before launch to set up your parent's profile."
+                    "Namaste {name}! We have received your priority launch registration for parents in {parentLocation}. A Care Coordinator will reach out on WhatsApp before launch to set up your parent's profile."
                   </p>
                 </div>
 
